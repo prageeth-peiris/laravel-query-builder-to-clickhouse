@@ -1,10 +1,3 @@
-# Very short description of the package
-
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/prageeth-peiris/laravel-query-builder-to-clickhouse.svg?style=flat-square)](https://packagist.org/packages/prageeth-peiris/laravel-query-builder-to-clickhouse)
-[![Total Downloads](https://img.shields.io/packagist/dt/prageeth-peiris/laravel-query-builder-to-clickhouse.svg?style=flat-square)](https://packagist.org/packages/prageeth-peiris/laravel-query-builder-to-clickhouse)
-![GitHub Actions](https://github.com/prageeth-peiris/laravel-query-builder-to-clickhouse/actions/workflows/main.yml/badge.svg)
-
-This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what PSRs you support to avoid any confusion with users and contributors.
 
 ## Installation
 
@@ -18,13 +11,58 @@ composer require prageeth-peiris/laravel-query-builder-to-clickhouse
 
 ```php
 // Usage description here
+
+Add following database connections to config/database.php 
+
+       'bavix::clickhouse' => [
+            'driver' => 'bavix::clickhouse',
+            'host' => env('CLICKHOUSE_HOST'),
+            'port' => env('CLICKHOUSE_PORT',8123),
+            'database' => env('CLICKHOUSE_DATABASE'),
+            'username' => env('CLICKHOUSE_USER','default'),
+            'password' => env('CLICKHOUSE_PASSWORD'),
+            'options' => [
+                'timeout' => 20,
+                'protocol' => 'http'
+            ]
+        ],
+        'clickhouse_custom' => [
+            'driver' => 'bavix::clickhouse::custom',
+            'host' => env('CLICKHOUSE_HOST'),
+            'port' => env('CLICKHOUSE_PORT',8123),
+            'database' => env('CLICKHOUSE_DATABASE'),
+            'username' => env('CLICKHOUSE_USER','default'),
+            'password' => env('CLICKHOUSE_PASSWORD'),
+            'options' => [
+                'timeout' => 20,
+                'protocol' => 'http'
+            ]
+        ]
+
+
+change your model connection to "clickhouse_custom"
+
+Class CustomModel extends Model {
+
+
+  protected  $connection = 'clickhouse_custom';
+
+
+}
+
+
 ```
 
-### Testing
+### Dependencies
 
-```bash
-composer test
-```
+- PHP 8
+- Laravel 8
+- https://github.com/bavix/laravel-clickhouse
+- https://github.com/MariosTheof/laravel-clickhouse-migrations
+
+Read related packages documentation to use their config.
+
+
 
 ### Changelog
 
