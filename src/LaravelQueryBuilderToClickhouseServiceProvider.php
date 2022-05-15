@@ -2,7 +2,9 @@
 
 namespace PrageethPeiris\LaravelQueryBuilderToClickhouse;
 
+use Illuminate\Database\DatabaseManager;
 use Illuminate\Support\ServiceProvider;
+use PrageethPeiris\LaravelQueryBuilderToClickhouse\Connections\CustomConnection;
 
 class LaravelQueryBuilderToClickhouseServiceProvider extends ServiceProvider
 {
@@ -11,37 +13,7 @@ class LaravelQueryBuilderToClickhouseServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        /*
-         * Optional methods to load your package assets
-         */
-        // $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'laravel-query-builder-to-clickhouse');
-        // $this->loadViewsFrom(__DIR__.'/../resources/views', 'laravel-query-builder-to-clickhouse');
-        // $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
-        // $this->loadRoutesFrom(__DIR__.'/routes.php');
 
-        if ($this->app->runningInConsole()) {
-            $this->publishes([
-                __DIR__.'/../config/config.php' => config_path('laravel-query-builder-to-clickhouse.php'),
-            ], 'config');
-
-            // Publishing the views.
-            /*$this->publishes([
-                __DIR__.'/../resources/views' => resource_path('views/vendor/laravel-query-builder-to-clickhouse'),
-            ], 'views');*/
-
-            // Publishing assets.
-            /*$this->publishes([
-                __DIR__.'/../resources/assets' => public_path('vendor/laravel-query-builder-to-clickhouse'),
-            ], 'assets');*/
-
-            // Publishing the translation files.
-            /*$this->publishes([
-                __DIR__.'/../resources/lang' => resource_path('lang/vendor/laravel-query-builder-to-clickhouse'),
-            ], 'lang');*/
-
-            // Registering package commands.
-            // $this->commands([]);
-        }
     }
 
     /**
@@ -49,12 +21,14 @@ class LaravelQueryBuilderToClickhouseServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // Automatically apply the package configuration
-        $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'laravel-query-builder-to-clickhouse');
 
-        // Register the main class to use with the facade
-        $this->app->singleton('laravel-query-builder-to-clickhouse', function () {
-            return new LaravelQueryBuilderToClickhouse;
+        $this->app->resolving('db', static function (DatabaseManager $db) {
+            $db->extend('clickhouse_custom', static function ($config, $name) {
+                return new CustomConnection(\array_merge($config, \compact('name')));
+            });
         });
+
+
+
     }
 }
