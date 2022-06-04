@@ -44,7 +44,9 @@ change your model connection to "clickhouse_custom"
 
 Class CustomModel extends Model {
 
-
+  protected  $guarded = [];
+  public $timestamps = false;
+  public $incrementing = false;
   protected  $connection = 'clickhouse_custom';
 
 
