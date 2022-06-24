@@ -15,9 +15,15 @@
             "role": "Developer"
         }
     ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:iamprageeth/laravel-clickhouse"
+        }
+    ],
     "require": {
         "php": "^8.0",
-        "bavix/laravel-clickhouse": "^2.2",
+        "bavix/laravel-clickhouse": "dev-master",
         "illuminate/support": "^8.0",
         "athmarios/laravel-clickhouse-migrations": "master"
     },
