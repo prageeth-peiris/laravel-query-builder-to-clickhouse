@@ -12,7 +12,7 @@ composer require prageeth-peiris/laravel-query-builder-to-clickhouse
 ```php
 // Usage description here
 
-Add following database connections to config/database.php 
+//Add following database connections to config/database.php 
 
        'bavix::clickhouse' => [
             'driver' => 'bavix::clickhouse',
@@ -40,7 +40,7 @@ Add following database connections to config/database.php
         ]
 
 
-change your model connection to "clickhouse_custom"
+//change your model connection to "clickhouse_custom"
 
 Class CustomModel extends Model {
 
@@ -51,6 +51,13 @@ Class CustomModel extends Model {
 
 
 }
+
+
+//to use buffer table you can use useBuffer method
+//this will use table with suffix '_buffer' to execute queries
+//so you must create table with suffix '_buffer' to use this method
+
+CustomModel::useBuffer()->insert($data)
 
 
 ```
