@@ -5,3 +5,11 @@ All notable changes to `laravel-query-builder-to-clickhouse` will be documented 
 ## 1.0.0 - 2022-05-15
 
 - initial release
+
+## 1.1.0 - 2022-06-24
+
+- Using iamprageeth/laravel-clickhouse (folked version of bavix/laravel-clickhouse)
+
+## 1.2.0 - 2022-06-25
+
+- Added method to switch to buffer table when using query builder
