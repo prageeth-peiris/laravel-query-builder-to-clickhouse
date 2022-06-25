@@ -10,6 +10,17 @@ use Tinderbox\ClickhouseBuilder\Query\Grammar;
 class CustomQueryBuilder extends  Builder
 {
 
+    public function useBuffer():self{
+
+        $table_name = $this->from;
+        $this->from("{$table_name}_buffer");
+
+        return $this;
+
+
+    }
+
+
 
     public function get($columns = ['*']){
 
