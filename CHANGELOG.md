@@ -13,3 +13,7 @@ All notable changes to `laravel-query-builder-to-clickhouse` will be documented 
 ## 1.2.0 - 2022-06-25
 
 - Added method to switch to buffer table when using query builder
+
+## 1.3.0 - 2022-07-19
+
+- Removed sorting records in bulk insert. This will improve performance in bulk insert
