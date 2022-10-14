@@ -39,26 +39,22 @@ composer require prageeth-peiris/laravel-query-builder-to-clickhouse
             ]
         ]
 
+//extend from this model and start using clickhouse
+use PrageethPeiris\LaravelQueryBuilderToClickhouse\Model;
 
-//change your model connection to "clickhouse_custom"
+Class CustomModel extends BaseClickHouseModel {
 
-Class CustomModel extends Model {
-
-  protected  $guarded = [];
-  public $timestamps = false;
-  public $incrementing = false;
-  protected  $connection = 'clickhouse_custom';
-
+//this is required if you are doing sub query joining
+      protected $tableJoinKey = 'page';
 
 }
 
+//use table with a suffix at runtime
+CustomModel::useTableSuffix("in_memory")->insert($data)
 
-//to use buffer table you can use useBuffer method
-//this will use table with suffix '_buffer' to execute queries
-//so you must create table with suffix '_buffer' to use this method
-
-CustomModel::useBuffer()->insert($data)
-
+//here comes a method to do sub query joining very easily
+CustomModel::autoLeftJoinSubQuery(CustomModel::class,OtherModel::GroupBySomething())
+->autoLeftJoinSubQuery(CustomModel::class,OtherModel::GroupBySomethingAndSomething())
 
 ```
 
