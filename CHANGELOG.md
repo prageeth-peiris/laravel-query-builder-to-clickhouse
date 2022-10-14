@@ -17,3 +17,10 @@ All notable changes to `laravel-query-builder-to-clickhouse` will be documented 
 ## 1.3.0 - 2022-07-19
 
 - Removed sorting records in bulk insert. This will improve performance in bulk insert
+
+## 1.4.0 - 2022-10-14
+
+- Added ClickHouse Base Model
+- Moved executing sql on clickhouse to trait
+- Moved custom eloquent builder to package
+- Changed buffer method to useSuffix. More sense now
