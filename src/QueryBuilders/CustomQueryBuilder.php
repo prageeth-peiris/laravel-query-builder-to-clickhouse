@@ -10,10 +10,10 @@ class CustomQueryBuilder extends  Builder
 {
     use ExecuteOnClickHouse;
 
-    public function useBuffer():self{
+    public function useTableSuffix(string $suffix):self{
 
         $table_name = $this->from;
-        $this->from("{$table_name}_buffer");
+        $this->from("{$table_name}_{$suffix}");
 
         return $this;
 
