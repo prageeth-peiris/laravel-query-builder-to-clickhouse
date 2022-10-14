@@ -4,6 +4,7 @@ namespace PrageethPeiris\LaravelQueryBuilderToClickhouse\Traits;
 
 use Bavix\LaravelClickHouse\Database\Connection;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Tinderbox\ClickhouseBuilder\Query\Grammar;
 
 trait   ExecuteOnClickHouse
@@ -22,13 +23,12 @@ trait   ExecuteOnClickHouse
 
         $raw = $this->getRawSql($toSql,$bindings);
 
-        $sanitized_raw = str_replace('"', '', $raw);  //remove double quotes
+        $sanitized_raw = $this->sanitizeSqlQuery($raw);
+
 
         $clickhouse_connection = (new Connection(config('database.connections.bavix::clickhouse')));
 
         $result = $clickhouse_connection->select($sanitized_raw);
-
-
 
         return collect($result);
 
@@ -36,11 +36,25 @@ trait   ExecuteOnClickHouse
 
     }
 
+    private function sanitizeSqlQuery(string $query):string {
+        return Str::of($query)->replace('"','')->replace('@@@@@','?');
+    }
+
+
+    private function ReplaceBindingsQuestionMarkWithCustomCharacter(array $bindings) : array {
+
+        return array_map(fn($item) =>  Str::replace('?','@@@@@',$item) ,$bindings);
+
+    }
+
+
 
     private function getRawSql($builderSql,$builderBindings){
         $sql = $builderSql;
 
-        foreach($builderBindings as $binding)
+        $removedSpecialCharFromBindings = $this->ReplaceBindingsQuestionMarkWithCustomCharacter($builderBindings);
+
+        foreach($removedSpecialCharFromBindings as $binding)
         {
             $value = is_numeric($binding) ? $binding : "'".$binding."'";
             $sql = preg_replace('/\?/', $value, $sql, 1);
