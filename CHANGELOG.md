@@ -24,3 +24,6 @@ All notable changes to `laravel-query-builder-to-clickhouse` will be documented 
 - Moved executing sql on clickhouse to trait
 - Moved custom eloquent builder to package
 - Changed buffer method to useSuffix. More sense now
+
+## 1.5.0 - 2022-10-14
+- Fixed Question Mark Github Issue#1
