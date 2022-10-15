@@ -58,6 +58,10 @@ CustomModel::autoLeftJoinSubQuery(CustomModel::class,OtherModel::GroupBySomethin
 
 ```
 
+### NOTE
+This is an opinionated package so this cache results by raw clickhosue sql query. It will use your default cache driver. to clear cache run
+<code>php artisan cache:clear </code>
+
 ### Dependencies
 
 - PHP 8

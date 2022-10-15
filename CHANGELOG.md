@@ -27,3 +27,6 @@ All notable changes to `laravel-query-builder-to-clickhouse` will be documented 
 
 ## 1.5.0 - 2022-10-14
 - Fixed Question Mark Github Issue#1
+
+## 1.6.0 - 2022-10-15
+- Cache results by clickhouse raw sql query
