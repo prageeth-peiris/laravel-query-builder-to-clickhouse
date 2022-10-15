@@ -4,8 +4,10 @@ namespace PrageethPeiris\LaravelQueryBuilderToClickhouse\Traits;
 
 use Bavix\LaravelClickHouse\Database\Connection;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Tinderbox\ClickhouseBuilder\Query\Grammar;
+use Illuminate\Support\Facades\Cache;
 
 trait   ExecuteOnClickHouse
 {
@@ -17,24 +19,30 @@ trait   ExecuteOnClickHouse
 
     }
 
-    private function executeClickHouse($toSql,$bindings){
-
+    private function executeClickHouse($toSql,$bindings):Collection{
 
 
         $raw = $this->getRawSql($toSql,$bindings);
 
         $sanitized_raw = $this->sanitizeSqlQuery($raw);
 
+        $cache_key = md5($sanitized_raw);
 
-        $clickhouse_connection = (new Connection(config('database.connections.bavix::clickhouse')));
+        //cache results by query for 24 hours
+        $result  = Cache::remember($cache_key, 86400, function () use ($sanitized_raw){
+            return $this->getClickHouseConnection()->select($sanitized_raw);
+        });
 
-        $result = $clickhouse_connection->select($sanitized_raw);
 
         return collect($result);
 
 
-
     }
+
+    private function getClickHouseConnection() : Connection{
+        return (new Connection(config('database.connections.bavix::clickhouse')));
+    }
+
 
     private function sanitizeSqlQuery(string $query):string {
         return Str::of($query)->replace('"','')->replace('@@@@@','?');
