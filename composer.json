@@ -25,7 +25,7 @@
         "php": "^8.0",
         "bavix/laravel-clickhouse": "^2.0 | ^2.3",
         "illuminate/support": "^8.0 | ^10.0",
-        "athmarios/laravel-clickhouse-migrations": "master"
+        "athmarios/laravel-clickhouse-migrations": "dev-master"
     },
     "require-dev": {
         "orchestra/testbench": "^6.0",
